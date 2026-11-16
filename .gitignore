@@ -1,0 +1,11 @@
+dist/
+.lazycat-action/
+.superpowers/
+.venv/
+__pycache__/
+*.pyc
+*.lpk
+*.log
+.env
+.env.*
+# Keep generated .lazycat-action.lock.yml tracked after a real publication.

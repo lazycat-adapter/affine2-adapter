@@ -1,0 +1,61 @@
+version: 2
+project:
+  root: .
+  build_config: lzc-build.yml
+  package_file: package.yml
+  output: dist/cloud.lazycat.app.affine.lpk
+  target_arch: amd64
+source:
+  kind: git
+  url: https://github.com/toeverything/AFFiNE.git
+  select:
+    strategy: semver-tag
+    # Git uses v0.27.4; GHCR uses 0.27.4. Never follow the canary default
+    # branch or mutable stable/latest aliases. Exclude beta/canary/RC tags.
+    tag_regex: '^v[0-9]+\.[0-9]+\.[0-9]+$'
+changelog:
+  mode: command
+  command: python3 -B scripts/upstream.py changelog
+state:
+  file: .lazycat-action.lock.yml
+update:
+  strategy: publish
+  allow_downgrade: false
+build:
+  run_buildscript: true
+  prepare:
+    # command+multiple images is NOT supported by the current executor.
+    # Keep images mode and run delivered-image acceptance in the buildscript.
+    mode: images
+images:
+  - id: affine
+    target: service
+    service: affine
+    # Source version remains 0.27.4 even if a rejected-review retry allocates
+    # a different LPK patch version. {version} would select a wrong image.
+    source: ghcr.io/toeverything/affine:{source_version}
+    delivery:
+      mode: lazycat
+  - id: redis
+    target: service
+    service: redis
+    source: docker.io/library/redis:7.4@sha256:a6dd428750118c2c2c67d3f555faef0aa15a2b71198b40e1cb3b9229b1cf3094
+    delivery:
+      mode: lazycat
+  - id: postgres
+    target: service
+    service: postgres
+    source: docker.io/pgvector/pgvector:pg16@sha256:018b4a92e634c3a5715f613dd43497e3d8028ae051be7ba6fd127bcffb0e7957
+    delivery:
+      mode: lazycat
+stores:
+  official:
+    enabled: true
+    create_if_missing: false
+    skip_if_version_exists: true
+    continue_if_newer_version: true
+    retry:
+      enabled: true
+      max_attempts: 5
+      initial_delay: 2s
+      max_delay: 30s
