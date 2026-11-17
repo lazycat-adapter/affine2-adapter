@@ -58,6 +58,17 @@ jobs:
           validate()
           for path in pathlib.Path('scripts').glob('*.py'): ast.parse(path.read_text())
           PY
+      - name: Read published upstream metadata with GitHub authentication
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -B - <<'PY'
+          import sys
+          sys.path.insert(0, 'scripts')
+          from upstream import release
+          selected = release()
+          print('Authenticated stable release:', selected['tag'], selected['revision'])
+          PY
       - name: Verify developer permission before publication
         if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && !inputs.dry-run)
         env:
@@ -78,6 +89,8 @@ jobs:
           PY
       - name: Verify upstream images without publication
         if: github.event_name == 'workflow_dispatch' && inputs.dry-run && inputs.verify-image
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: python -B scripts/verify_latest.py
       - name: Upload isolated verification evidence
         if: always() && github.event_name == 'workflow_dispatch' && inputs.dry-run && inputs.verify-image
@@ -90,7 +103,7 @@ jobs:
           if-no-files-found: ignore
   update:
     needs: validate
-    uses: wcaqrl/lazycat-action/.github/workflows/lazycat.yml@v1
+    uses: wcaqrl/lazycat-action/.github/workflows/lazycat.yml@v1.10.0-rc.1
     with:
       config: lazycat-action.yml
       operation: auto

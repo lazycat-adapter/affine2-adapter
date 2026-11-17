@@ -9,21 +9,26 @@ import tempfile
 import urllib.parse
 
 from contract import ROOT, identity
-from registry import fetch
+from github_api import github_json
 
 API='https://api.github.com/repos/toeverything/AFFiNE'
 GIT='https://github.com/toeverything/AFFiNE.git'
 
 def release(tag=None):
-    data=json.loads(fetch(API+('/releases/tags/'+urllib.parse.quote(tag,safe='') if tag else '/releases/latest')))
+    data=github_json(API+('/releases/tags/'+urllib.parse.quote(tag,safe='') if tag else '/releases/latest'))
     if data.get('draft') or data.get('prerelease') or (tag and data.get('tag_name')!=tag):raise ValueError('Expected a published stable Release')
-    ref=json.loads(fetch(API+'/git/ref/tags/'+urllib.parse.quote(data['tag_name'],safe='')))['object']
-    for _ in range(5):
-        if ref['type']!='tag':break
-        ref=json.loads(fetch(ref['url']))['object']
-    if ref['type']!='commit':raise ValueError('Release tag does not resolve to a commit')
-    version,image=identity(data['tag_name'],ref['sha'])
-    return {'tag':data['tag_name'],'revision':ref['sha'],'version':version,'image':image}
+    sha=tag_revision(data['tag_name'])
+    version,image=identity(data['tag_name'],sha)
+    return {'tag':data['tag_name'],'revision':sha,'version':version,'image':image}
+
+def tag_revision(tag,repository=None):
+    identity(tag,'0'*40)
+    ref='refs/tags/'+tag
+    raw=subprocess.check_output(['git','ls-remote','--tags',str(repository or GIT),ref,ref+'^{}'],text=True,timeout=90)
+    refs={name:sha for line in raw.splitlines() if len(parts:=line.split())==2 for sha,name in [parts]}
+    sha=refs.get(ref+'^{}') or refs.get(ref)
+    if not sha or not re.fullmatch('[a-f0-9]{40}',sha):raise ValueError('Stable Git tag is missing or invalid: '+tag)
+    return sha
 
 def git_changes(directory,previous,current):
     if not all(re.fullmatch(r'[a-f0-9]{40}',v) for v in (previous,current)):raise ValueError('Expected immutable changelog bounds')
@@ -35,8 +40,10 @@ def changelog():
     tag=os.environ['LAZYCAT_SOURCE_TAG'];sha=os.environ['LAZYCAT_SOURCE_REVISION']
     version,_=identity(tag,sha)
     if version!=os.environ['LAZYCAT_SOURCE_VERSION']:raise ValueError('Inconsistent selected source version')
+    selected=release(tag)
+    if selected['revision']!=sha:raise ValueError('Selected stable tag moved before changelog generation')
     previous=os.environ.get('LAZYCAT_PREVIOUS_SOURCE_REVISION')
-    if not previous:previous=release('v0.25.7')['revision']
+    if not previous:previous=tag_revision('v0.25.7')
     with tempfile.TemporaryDirectory(prefix='affine-changelog-') as directory:
         def git(*args):return subprocess.run(['git','-C',directory,*args],check=True,timeout=180,stdout=subprocess.DEVNULL)
         git('init','--quiet');git('remote','add','origin',GIT)
