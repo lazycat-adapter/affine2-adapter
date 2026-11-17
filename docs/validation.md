@@ -68,3 +68,17 @@ lazycat-action run --operation check --config lazycat-action.yml --dry-run
 [Runner 容器验收 44009542621](https://github.com/wcaqrl/affine-adapter/actions/runs/44009542621)
 通过：初始化、管理员登录、工作区、同步、附件、OIDC、持久化、配置刷新。
 该运行保持 dry-run，不向商店送审。正式转存、打包与送审另行验证。
+
+## 2026-11-17：正式交付验证通过
+
+[运行 44010886589](https://github.com/wcaqrl/affine-adapter/actions/runs/44010886589)
+使用 `lazycat-action v1.10.1`，三个镜像均输出逐层进度、耗时及最终官方地址，
+每镜像总上限 30 分钟、无进度上限 10 分钟。官方转存镜像通过完整运行验收，
+LPK 构建、提交审核、独立 GitHub Release 四个任务全部成功。
+
+- 包名 `cloud.lazycat.app.affine`，版本 `0.27.4`，LPK 大小 49152 字节。
+- SHA256：`e9ba3458988b720cefddd49c01900b2f78474ca67040b9f01edcc94eec59e80a`。
+- 商店审核编号 `23359`，提交时间 2026-11-17 11:35:54（北京时间），查询时待审核。
+- [Release 下载](https://github.com/wcaqrl/affine-adapter/releases/tag/v0.27.4)
+  只有一个手动上传资产 `.lpk`，其 GitHub 资产 SHA256 与商店记录一致。
+- 自动提交的版本、官方镜像 Manifest 和审核状态锁已同步到本机，不手工改写锁。
