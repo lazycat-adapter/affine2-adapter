@@ -57,3 +57,14 @@ lazycat-action run --operation check --config lazycat-action.yml --dry-run
 不需要开发者额外配置 GitHub PAT。构建阶段关闭持久化 Git 凭据，受保护变量在构建配置
 展开前移除。24 项 Python 测试、3 项 Node 测试和工作流校验通过。
 本次为读取/鉴权修复，没有重新执行上一节的完整容器验收，也没有手动触发真实送审。
+
+## 2026-11-17：Docker 空字段兼容
+
+运行 44005457051 在拉取官方 AFFiNE 镜像后因 `User` 缺省与空字符串误判失败。
+仅对 `User`、`WorkingDir` 的缺省/null/空串作等价比较；非空值、错误类型、
+命令、环境、镜像摘要及文件分层继续严格校验。27 项 Python、3 项 Node 测试通过。
+本机三个真实固定镜像分别用 API 1.48、1.54 检查，六项均通过，未启动本地容器。
+
+[Runner 容器验收 44009542621](https://github.com/wcaqrl/affine-adapter/actions/runs/44009542621)
+通过：初始化、管理员登录、工作区、同步、附件、OIDC、持久化、配置刷新。
+该运行保持 dry-run，不向商店送审。正式转存、打包与送审另行验证。

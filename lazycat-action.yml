@@ -36,18 +36,24 @@ images:
     source: ghcr.io/toeverything/affine:{source_version}
     delivery:
       mode: lazycat
+      copy_timeout: 30m
+      copy_idle_timeout: 10m
   - id: redis
     target: service
     service: redis
     source: docker.io/library/redis:7.4@sha256:a6dd428750118c2c2c67d3f555faef0aa15a2b71198b40e1cb3b9229b1cf3094
     delivery:
       mode: lazycat
+      copy_timeout: 30m
+      copy_idle_timeout: 10m
   - id: postgres
     target: service
     service: postgres
     source: docker.io/pgvector/pgvector:pg16@sha256:018b4a92e634c3a5715f613dd43497e3d8028ae051be7ba6fd127bcffb0e7957
     delivery:
       mode: lazycat
+      copy_timeout: 30m
+      copy_idle_timeout: 10m
 stores:
   official:
     enabled: true
