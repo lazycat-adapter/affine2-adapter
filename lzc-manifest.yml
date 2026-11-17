@@ -16,7 +16,8 @@ application:
 services:
   affine:
     # Source placeholders are replaced by the executor before packaging.
-    image: ghcr.io/toeverything/affine:0.27.4@sha256:c312116a134184947d98749c8a8e29f4e3bc97f4f2a51c9a3497f9baea2eec2b
+    # upstream: ghcr.io/toeverything/affine:0.27.4@sha256:c312116a134184947d98749c8a8e29f4e3bc97f4f2a51c9a3497f9baea2eec2b
+    image: registry.lazycat.cloud/peter/toeverything/affine:64ba071dc398e17f
     binds:
       - /lzcapp/var/affine/storage:/root/.affine/storage
       - /lzcapp/var/affine/config:/root/.affine/config
@@ -41,7 +42,8 @@ services:
       retries: 10
       start_period: 300s
   redis:
-    image: docker.io/library/redis:7.4@sha256:a6dd428750118c2c2c67d3f555faef0aa15a2b71198b40e1cb3b9229b1cf3094
+    # upstream: docker.io/library/redis:7.4@sha256:a6dd428750118c2c2c67d3f555faef0aa15a2b71198b40e1cb3b9229b1cf3094
+    image: registry.lazycat.cloud/peter/library/redis:9cafcd06f51bc9e8
     command: redis-server --appendonly yes
     binds:
       - /lzcapp/var/affine/redis:/data
@@ -51,7 +53,8 @@ services:
       timeout: 5s
       retries: 10
   postgres:
-    image: docker.io/pgvector/pgvector:pg16@sha256:018b4a92e634c3a5715f613dd43497e3d8028ae051be7ba6fd127bcffb0e7957
+    # upstream: docker.io/pgvector/pgvector:pg16@sha256:018b4a92e634c3a5715f613dd43497e3d8028ae051be7ba6fd127bcffb0e7957
+    image: registry.lazycat.cloud/peter/pgvector/pgvector:feca493028d1cb5c
     binds:
       - /lzcapp/var/affine/postgres:/var/lib/postgresql/data
     environment:
