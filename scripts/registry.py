@@ -119,7 +119,15 @@ def verify_local(image,local):
     if local.get('RootFS',{}).get('Layers')!=image['config']['rootfs']['diff_ids']:
         raise ValueError('Pulled filesystem differs')
     for key in ('Env','Cmd','Entrypoint','WorkingDir','User'):
-        if local.get('Config',{}).get(key)!=image['config'].get('config',{}).get(key):
+        actual=local.get('Config',{}).get(key)
+        expected=image['config'].get('config',{}).get(key)
+        # Docker API 1.48 emits empty scalar defaults; newer APIs may omit
+        # them. Normalize only these two optional strings, never real users,
+        # paths, commands, environment values or non-string values such as 0.
+        if key in ('User','WorkingDir'):
+            if actual is None:actual=''
+            if expected is None:expected=''
+        if actual!=expected:
             raise ValueError('Pulled runtime configuration differs: '+key)
     return local['Id']
 

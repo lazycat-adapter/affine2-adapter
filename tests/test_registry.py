@@ -5,6 +5,36 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from registry import checked_json, content_hash, verify_local
 
 class RegistryTests(unittest.TestCase):
+    def local_fixture(self,expected,actual):
+        image={'digest':'sha256:'+'a'*64,'config_digest':'sha256:'+'b'*64,
+               'config':{'rootfs':{'diff_ids':['sha256:'+'c'*64]},'config':expected}}
+        local={'Id':'sha256:'+'b'*64,'Os':'linux','Architecture':'amd64',
+               'RootFS':{'Layers':['sha256:'+'c'*64]},'Config':actual}
+        return image,local
+
+    def test_optional_scalar_empty_representations_are_equivalent_across_docker_apis(self):
+        for key in ('User','WorkingDir'):
+            for expected,actual in (({}, {key:''}),({key:None},{key:''}),({key:''},{}),({key:''},{key:None})):
+                with self.subTest(key=key,expected=expected,actual=actual):
+                    image,local=self.local_fixture(expected,actual)
+                    self.assertEqual(verify_local(image,local),'sha256:'+'b'*64)
+
+    def test_real_scalar_changes_and_wrong_types_remain_rejected(self):
+        for expected,actual in (({}, {'User':'1000'}),({'User':'1000'},{'User':'root'}),
+                                ({'User':'1000'},{'User':1000}),({}, {'User':0}),
+                                ({'WorkingDir':'/app'},{'WorkingDir':''}),({}, {'WorkingDir':'/tmp'})):
+            with self.subTest(expected=expected,actual=actual):
+                image,local=self.local_fixture(expected,actual)
+                with self.assertRaisesRegex(ValueError,'runtime configuration differs'):verify_local(image,local)
+
+    def test_empty_scalar_normalization_does_not_mask_other_runtime_or_identity_changes(self):
+        for key,expected,actual in (('Cmd',['node'],['sh']),('Entrypoint',['entry.sh'],None),('Env',['PORT=3010'],['PORT=80'])):
+            with self.subTest(key=key):
+                image,local=self.local_fixture({key:expected,'User':None},{key:actual,'User':''})
+                with self.assertRaisesRegex(ValueError,'runtime configuration differs: '+key):verify_local(image,local)
+        image,local=self.local_fixture({'User':None},{'User':''})
+        local['Id']='sha256:'+'d'*64
+        with self.assertRaisesRegex(ValueError,'identity/platform'):verify_local(image,local)
     def test_faithful_copy_of_initially_unlabeled_image_has_same_identity(self):
         import copy
         cfg={'os':'linux','architecture':'amd64','rootfs':{'diff_ids':['sha256:'+'a'*64]},'config':{'Cmd':['node']}}
