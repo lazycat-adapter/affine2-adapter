@@ -6,7 +6,7 @@ source:
     revision: b4c8548c09da21b2898443559a5b846f0ccf5dd8
     tag: v0.27.4
 fingerprint: sha256:4b762f068f21b57c759186918c1b7d468aac86b267349d1235db59d69bc91ed7
-status: packaged
+status: submitted
 images:
     - id: affine
       source_ref: ghcr.io/toeverything/affine:0.27.4@sha256:c312116a134184947d98749c8a8e29f4e3bc97f4f2a51c9a3497f9baea2eec2b
@@ -91,3 +91,18 @@ application:
 
         https://github.com/toeverything/AFFiNE/compare/776ca2c702af54a9c23d60cf0f426a76ea9c38e8...b4c8548c09da21b2898443559a5b846f0ccf5dd8
 packaged_at: 2026-11-17T03:35:26.416591424Z
+reviews:
+    - id: 23359
+      source:
+        kind: git
+        version: 0.27.4
+        ref: refs/tags/v0.27.4
+        revision: b4c8548c09da21b2898443559a5b846f0ccf5dd8
+        tag: v0.27.4
+      fingerprint: sha256:4b762f068f21b57c759186918c1b7d468aac86b267349d1235db59d69bc91ed7
+      application_version: 0.27.4
+      lpk_sha256: e9ba3458988b720cefddd49c01900b2f78474ca67040b9f01edcc94eec59e80a
+      status: waiting
+      created_at: 2026-11-17T03:35:54.488Z
+      submitted_at: 2026-11-17T03:35:54.672492893Z
+      checked_at: 2026-11-17T03:35:54.672493293Z
