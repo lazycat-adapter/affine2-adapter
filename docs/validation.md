@@ -47,3 +47,13 @@ lazycat-action run --operation check --config lazycat-action.yml --dry-run
 
 只读检查和本地验收不生成发布状态锁。首次真实工作流成功打包/提交时由通用
 执行器生成并提交 `.lazycat-action.lock.yml`，不人工伪造状态。
+
+
+## 2026-11-17：GitHub 元数据读取修复
+
+共享执行器候选版 `v1.10.0-rc.1` 的 [Runner 只读验证](https://github.com/wcaqrl/affine-adapter/actions/runs/44003686412)
+通过，仍选择正式 `v0.27.4`。首次基线提交号改由 Git 读取，当前 Release 通过执行器的
+受限本机通道鉴权读取，不再匿名请求旧 Release API。独立验证使用 Runner 自动 Token，
+不需要开发者额外配置 GitHub PAT。构建阶段关闭持久化 Git 凭据，受保护变量在构建配置
+展开前移除。24 项 Python 测试、3 项 Node 测试和工作流校验通过。
+本次为读取/鉴权修复，没有重新执行上一节的完整容器验收，也没有手动触发真实送审。
