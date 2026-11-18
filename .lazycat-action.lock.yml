@@ -6,7 +6,7 @@ source:
     revision: b4c8548c09da21b2898443559a5b846f0ccf5dd8
     tag: v0.27.4
 fingerprint: sha256:4b762f068f21b57c759186918c1b7d468aac86b267349d1235db59d69bc91ed7
-status: submitted
+status: packaged
 images:
     - id: affine
       source_ref: ghcr.io/toeverything/affine:0.27.4@sha256:c312116a134184947d98749c8a8e29f4e3bc97f4f2a51c9a3497f9baea2eec2b
@@ -22,8 +22,8 @@ images:
       runtime_ref: registry.lazycat.cloud/peter/pgvector/pgvector:feca493028d1cb5c
 application:
     package: cloud.lazycat.app.affine
-    version: 0.27.4
-    lpk_sha256: e9ba3458988b720cefddd49c01900b2f78474ca67040b9f01edcc94eec59e80a
+    version: 0.27.5
+    lpk_sha256: 162adc54527d1e9071ffd2ccb08f529444b43e50d38e089c15aee523ff39bf1e
     changelog: |-
         AFFiNE 0.27.4
 
@@ -90,7 +90,7 @@ application:
         - chore: bump up dompurify version to v3.4.12 [SECURITY] (#15326) (7c6a36728)
 
         https://github.com/toeverything/AFFiNE/compare/776ca2c702af54a9c23d60cf0f426a76ea9c38e8...b4c8548c09da21b2898443559a5b846f0ccf5dd8
-packaged_at: 2026-11-17T03:35:26.416591424Z
+packaged_at: 2026-11-18T10:18:22.2668703Z
 reviews:
     - id: 23359
       source:
