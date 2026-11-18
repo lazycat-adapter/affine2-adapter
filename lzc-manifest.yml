@@ -21,8 +21,10 @@ services:
     binds:
       - /lzcapp/var/affine/storage:/root/.affine/storage
       - /lzcapp/var/affine/config:/root/.affine/config
-      - /lzcapp/pkg/content:/opt/lazycat:ro
-    command: sh -ec 'node /opt/lazycat/bootstrap.cjs; node ./scripts/self-host-predeploy.js; node /opt/lazycat/refresh-managed.cjs; exec node ./dist/main.js'
+    command: >-
+      sh -ec 'node /lzcapp/pkg/content/bootstrap.cjs;
+      node ./scripts/self-host-predeploy.js;
+      node /lzcapp/pkg/content/refresh-managed.cjs; exec node ./dist/main.js'
     environment:
       REDIS_SERVER_HOST: redis
       DATABASE_URL: postgresql://affine@postgres:5432/affine

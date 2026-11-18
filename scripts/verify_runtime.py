@@ -117,9 +117,9 @@ def verify(images,application_version,source,root=ROOT):
     def mounts(service):
         options=[]
         for bind in manifest['services'][service]['binds']:
-            host,target,*flags=bind.split(':')
-            mapped=str(root/'content') if host=='/lzcapp/pkg/content' else scope.name+'-'+host.rsplit('/',1)[1]
-            options.extend(('-v',mapped+':'+target+(':'+':'.join(flags) if flags else '')))
+            host,target=bind.split(':')
+            volume=scope.name+'-'+host.rsplit('/',1)[1]
+            options.extend(('-v',volume+':'+target))
         return options
     def start_dependencies():
         pg_options=['--memory','256m','--memory-swap','256m','--cpus','0.5',*mounts('postgres')]
@@ -132,7 +132,9 @@ def verify(images,application_version,source,root=ROOT):
     def start_app():
         nonlocal app
         options=['--memory','1200m','--memory-swap','1200m','--cpus','1.5','--publish',f'127.0.0.1:{port}:3010',
-                 *mounts('affine'),'-v',str(root/'tests')+':/fixtures:ro']
+                 *mounts('affine'),
+                 '-v',str(root/'content')+':/lzcapp/pkg/content:ro',
+                 '-v',str(root/'tests')+':/fixtures:ro']
         for key,value in env.items():options.extend(('-e',key+'='+value))
         app=scope.run('affine',ids['affine'],options,shlex.split(manifest['services']['affine']['command']))
         def ready():

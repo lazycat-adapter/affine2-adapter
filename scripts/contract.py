@@ -70,11 +70,15 @@ def validate(root=ROOT):
             if bind.startswith('/lzcapp/var/') and not bind.startswith('/lzcapp/var/affine/'):
                 raise ValueError('Unexpected legacy data path')
     expected_binds={
-        'affine':['/lzcapp/var/affine/storage:/root/.affine/storage','/lzcapp/var/affine/config:/root/.affine/config','/lzcapp/pkg/content:/opt/lazycat:ro'],
+        'affine':['/lzcapp/var/affine/storage:/root/.affine/storage','/lzcapp/var/affine/config:/root/.affine/config'],
         'redis':['/lzcapp/var/affine/redis:/data'],
         'postgres':['/lzcapp/var/affine/postgres:/var/lib/postgresql/data']}
     import shlex
-    expected_command=['sh','-ec','node /opt/lazycat/bootstrap.cjs; node ./scripts/self-host-predeploy.js; node /opt/lazycat/refresh-managed.cjs; exec node ./dist/main.js']
+    expected_command=[
+        'sh', '-ec',
+        'node /lzcapp/pkg/content/bootstrap.cjs; node ./scripts/self-host-predeploy.js; '
+        'node /lzcapp/pkg/content/refresh-managed.cjs; exec node ./dist/main.js',
+    ]
     for name,service in manifest['services'].items():
         if sorted(service.get('binds',[]))!=sorted(expected_binds[name]):raise ValueError('Untested persistence/content mount: '+name)
         if set(service)-{'image','binds','command','environment','depends_on','healthcheck'}:raise ValueError('Untested service settings: '+name)

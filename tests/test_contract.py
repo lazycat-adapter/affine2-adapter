@@ -10,6 +10,13 @@ from contract import ROOT, identity, recipe_hash, verify_proof, validate, CHECKS
 
 
 class ContractTests(unittest.TestCase):
+    def test_startup_reads_scripts_from_the_runtime_content_directory(self):
+        _, manifest, _ = validate()
+        service = manifest['services']['affine']
+        self.assertFalse(any(bind.startswith('/lzcapp/pkg/content:') for bind in service['binds']))
+        for script in ('bootstrap.cjs', 'refresh-managed.cjs'):
+            self.assertIn(f'node /lzcapp/pkg/content/{script}', service['command'])
+
     def test_installed_manifest_cannot_diverge_from_tested_runtime(self):
         import shutil,yaml
         for mutation in ('missing-storage','wrong-command','wrong-database','old-os'):
