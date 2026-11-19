@@ -3,7 +3,7 @@ usage: |
   首次访问请创建管理员，支持懒猫 OIDC 登录；
   数据持久保存在 /lzcapp/var/affine。
 application:
-  subdomain: affine
+  subdomain: affine2
   multi_instance: false
   oidc_redirect_path: /oauth/callback
   routes:

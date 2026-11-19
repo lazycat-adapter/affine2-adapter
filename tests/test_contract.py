@@ -10,6 +10,10 @@ from contract import ROOT, identity, recipe_hash, verify_proof, validate, CHECKS
 
 
 class ContractTests(unittest.TestCase):
+    def test_application_uses_affine2_subdomain(self):
+        _, manifest, _ = validate()
+        self.assertEqual(manifest['application']['subdomain'], 'affine2')
+
     def test_startup_reads_scripts_from_the_runtime_content_directory(self):
         _, manifest, _ = validate()
         service = manifest['services']['affine']
