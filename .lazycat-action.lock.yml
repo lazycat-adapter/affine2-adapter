@@ -117,7 +117,8 @@ reviews:
       fingerprint: sha256:4b762f068f21b57c759186918c1b7d468aac86b267349d1235db59d69bc91ed7
       application_version: 0.27.5
       lpk_sha256: 162adc54527d1e9071ffd2ccb08f529444b43e50d38e089c15aee523ff39bf1e
-      status: waiting
+      status: rejected
+      reason: 大版本不兼容了，请更新新的包名
       created_at: 2026-11-18T10:18:40.299Z
       submitted_at: 2026-11-18T10:18:40.66044664Z
-      checked_at: 2026-11-18T10:18:40.66044717Z
+      checked_at: 2026-11-19T07:38:45.543561016Z
