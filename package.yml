@@ -1,6 +1,6 @@
-package: cloud.lazycat.app.affine
-# Online-store baseline. The executor allocates the selected stable upstream
-# version on the first real run; do not fabricate a publication state lock.
+package: cloud.lazycat.app.affine2
+# Keep the current version as the baseline so the first publication of this
+# package advances beyond the adapter's existing release tags.
 version: 0.27.5
 name: AFFiNE
 description: 本地优先的文档、白板与知识协作平台

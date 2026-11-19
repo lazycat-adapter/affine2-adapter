@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKAGE = 'cloud.lazycat.app.affine'
+PACKAGE = 'cloud.lazycat.app.affine2'
 SERVICES = ('affine', 'redis', 'postgres')
 CHECKS = ['fresh-install', 'admin-login', 'workspace', 'document-sync', 'blob-upload',
           'oidc-login', 'container-recreation', 'data-persistence', 'config-refresh']

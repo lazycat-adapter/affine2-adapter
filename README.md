@@ -1,7 +1,7 @@
 # AFFiNE → 懒猫微服
 
 监控 [AFFiNE](https://github.com/toeverything/AFFiNE) 正式稳定 Git 标签，将
-官方服务端镜像适配为 `cloud.lazycat.app.affine`，自动生成 LPK 并提交懒猫
+官方服务端镜像适配为 `cloud.lazycat.app.affine2`，自动生成 LPK 并提交懒猫
 官方应用商店审核。通用执行器固定引用
 [`wcaqrl/lazycat-action@v1`](https://github.com/wcaqrl/lazycat-action)。
 
@@ -11,15 +11,16 @@
 ## 首次使用
 
 1. 在本仓库 Settings → Secrets and variables → Actions → Repository secrets
-   配置 **`LZC_API_TOKEN`**，使用下划线；对应账号必须是该应用的开发者或协作者。
+   配置 **`LZC_API_TOKEN`**，使用下划线；首次送审前，开发者平台须已有
+   `cloud.lazycat.app.affine2` 应用记录，且对应账号是其开发者或协作者。
 2. 打开 Actions → **Update AFFiNE for LazyCat** → **Run workflow**。
 3. 保留 `dry-run` 勾选，只检查更新；同时勾选 `verify-image` 可运行真实容器测试。
 4. 取消 `dry-run` 勾选，才会转存镜像、验证、打包并提交审核。
 
 Push 仅检查，不送审。定时任务每六小时自动检查并发布，通常在北京时间
 02:17 / 08:17 / 14:17 / 20:17 执行，GitHub 可能延迟；不需要
-`LAZYCAT_AUTO_PUBLISH`。首次仓库的 `package.yml` 保持在线版本 `0.25.7`
-作为比较基线，首次真实运行才更新版本和生成 `.lazycat-action.lock.yml`。
+`LAZYCAT_AUTO_PUBLISH`。新包以 `0.27.5` 为版本基线，首次正式打包时由执行器
+分配下一版本并生成 `.lazycat-action.lock.yml`。旧包的审核状态保存在 Git 历史中。
 
 ## 版本和镜像
 

@@ -43,13 +43,13 @@ class ContractTests(unittest.TestCase):
         import yaml
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory);(root/'scripts').mkdir();(root/'content').mkdir()
-            (root/'package.yml').write_text('package: cloud.lazycat.app.affine\nversion: 0.25.7\n')
+            (root/'package.yml').write_text('package: cloud.lazycat.app.affine2\nversion: 0.25.7\n')
             (root/'lzc-manifest.yml').write_text('services:\n  affine: {image: old, command: start}\n  redis: {image: old}\n  postgres: {image: old}\n')
             (root/'lzc-build.yml').write_text('manifest: lzc-manifest.yml\n')
             (root/'lazycat-action.yml').write_text('version: 2\n')
             (root/'icon.png').write_bytes(b'icon');(root/'content/bootstrap.cjs').write_text('bootstrap')
             first=recipe_hash(root)
-            (root/'package.yml').write_text('package: cloud.lazycat.app.affine\nversion: 0.27.4\n')
+            (root/'package.yml').write_text('package: cloud.lazycat.app.affine2\nversion: 0.27.4\n')
             manifest=yaml.safe_load((root/'lzc-manifest.yml').read_text());manifest['services']['affine']['image']='registry.lazycat.cloud/peter/new:abc'
             (root/'lzc-manifest.yml').write_text(yaml.safe_dump(manifest))
             self.assertEqual(first,recipe_hash(root))

@@ -84,12 +84,12 @@ jobs:
           curl --fail --silent --show-error --retry 2 \
             --header "X-API-Token: ${LZC_API_TOKEN}" \
             --output "${RUNNER_TEMP}/affine-access.json" \
-            'https://appstore.api.lazycat.cloud/sdk/v3/developer/app/cloud.lazycat.app.affine/review/list?page=0&size=1'
+            'https://appstore.api.lazycat.cloud/sdk/v3/developer/app/cloud.lazycat.app.affine2/review/list?page=0&size=1'
           python - "${RUNNER_TEMP}/affine-access.json" <<'PY'
           import json,sys
           result=json.load(open(sys.argv[1]))
           if result.get('errorCode')!=0: raise SystemExit('Developer access denied: '+str(result.get('msg','unknown error')))
-          print('Developer access for cloud.lazycat.app.affine verified.')
+          print('Developer access for cloud.lazycat.app.affine2 verified.')
           PY
       - name: Verify upstream images without publication
         if: github.event_name == 'workflow_dispatch' && inputs.dry-run && inputs.verify-image

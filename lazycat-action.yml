@@ -3,7 +3,7 @@ project:
   root: .
   build_config: lzc-build.yml
   package_file: package.yml
-  output: dist/cloud.lazycat.app.affine.lpk
+  output: dist/cloud.lazycat.app.affine2.lpk
   target_arch: amd64
 source:
   kind: git
