@@ -1,0 +1,93 @@
+version: 2
+source:
+    kind: git
+    version: 0.27.4
+    ref: refs/tags/v0.27.4
+    revision: b4c8548c09da21b2898443559a5b846f0ccf5dd8
+    tag: v0.27.4
+fingerprint: sha256:4b762f068f21b57c759186918c1b7d468aac86b267349d1235db59d69bc91ed7
+status: packaged
+images:
+    - id: affine
+      source_ref: ghcr.io/toeverything/affine:0.27.4@sha256:c312116a134184947d98749c8a8e29f4e3bc97f4f2a51c9a3497f9baea2eec2b
+      source_digest: sha256:c312116a134184947d98749c8a8e29f4e3bc97f4f2a51c9a3497f9baea2eec2b
+      runtime_ref: registry.lazycat.cloud/peter/toeverything/affine:64ba071dc398e17f
+    - id: redis
+      source_ref: docker.io/library/redis:7.4@sha256:a6dd428750118c2c2c67d3f555faef0aa15a2b71198b40e1cb3b9229b1cf3094
+      source_digest: sha256:a6dd428750118c2c2c67d3f555faef0aa15a2b71198b40e1cb3b9229b1cf3094
+      runtime_ref: registry.lazycat.cloud/peter/library/redis:9cafcd06f51bc9e8
+    - id: postgres
+      source_ref: docker.io/pgvector/pgvector:pg16@sha256:018b4a92e634c3a5715f613dd43497e3d8028ae051be7ba6fd127bcffb0e7957
+      source_digest: sha256:018b4a92e634c3a5715f613dd43497e3d8028ae051be7ba6fd127bcffb0e7957
+      runtime_ref: registry.lazycat.cloud/peter/pgvector/pgvector:feca493028d1cb5c
+application:
+    package: cloud.lazycat.app.affine2
+    version: 0.27.6
+    lpk_sha256: d58d1c35fbf156946d7663ab8765e48e3ef65889390793d205b2ca9c91915590
+    changelog: |-
+        AFFiNE 0.27.4
+
+        Upstream commits since 776ca2c (up to 60 recent non-merge commits):
+        - feat(server): normalize timestamp (b4c8548c0)
+        - feat(server): improve stability for long records (81fb82761)
+        - fix(core): audio block job (047db0fa3)
+        - feat(server): realtime handle & migration (#15487) (06b3d020f)
+        - fix(server): transcript key & bump models (#15485) (ff1e3d9c9)
+        - chore(docs): update docs (7b3a8afc8)
+        - feat: add Render Blueprint for one-click self-host (#15478) (1719a3b58)
+        - fix(server): storage prefix url (#15477) (0f349af8e)
+        - fix(core): transcript cannot retry (#15476) (18977f204)
+        - fix(server): blob upload (#15474) (9693593d0)
+        - fix(server): missing feature flag (#15473) (5fb18557a)
+        - fix(core): exclude trashed docs from journal lookups (#15461) (26c515e05)
+        - chore: bump typescript 7 (#15465) (6375f5ab8)
+        - chore: migrate oxlint & oxfmt (#15464) (0c7b20dc1)
+        - feat(core): improve reconnect handling (#15458) (749c83cd8)
+        - chore: bump up nestjs (#15457) (25de261c9)
+        - feat: update schema & bump deps (#15455) (386e92acb)
+        - chore: bump up mermaid version to v11.16.1 [SECURITY] (#15443) (7bc349c4d)
+        - chore: bump up nanoid version to v5.1.16 [SECURITY] (#15454) (46ea493ec)
+        - feat(server): improve context management (#15448) (ee899a267)
+        - chore: bump up electron version to v39.8.10 [SECURITY] (#15441) (42322d13f)
+        - fix(editor): allow selection of earlier dates(#15436) (f0c7a4570)
+        - chore: bump up @atlaskit/pragmatic-drag-and-drop-auto-scroll version to v3 (#15396) (921e83bb4)
+        - feat(core): improve byok editing (#15427) (543667d9b)
+        - feat(server): converge legacy compatibility (#15426) (965f4590f)
+        - chore: bump up actions/setup-python action to v7 (#15416) (fdfb6df82)
+        - feat(i18n): update German translation (#15412) (fe1a6ac69)
+        - chore: bump up actions/setup-go action to v7 (#15410) (8cc7c9a22)
+        - chore: bump up actions/setup-node action to v7 (#15411) (a37b9a05a)
+        - chore: bump up actions/labeler action to v7 (#15409) (c59b43034)
+        - chore: bump up actions/checkout action to v7 (#15408) (1f5817380)
+        - chore: bump up actions/cache action to v6 (#15406) (a9096311f)
+        - chore: bump up @slack/web-api version to v8 (#15405) (8df82901e)
+        - chore: bump up @atlaskit/pragmatic-drag-and-drop-hitbox version to v2 (#15397) (c70eb811b)
+        - chore: bump up @napi-rs/simple-git version to v1 (#15401) (f0fdc5801)
+        - chore: bump up @atlaskit/pragmatic-drag-and-drop version to v2 (#15394) (e8fefc82c)
+        - chore: bump up RevenueCat/purchases-ios-spm version to from: "5.83.0" (#15393) (3824018d2)
+        - chore: bump up RevenueCat/purchases-ios-spm version to from: "5.82.0" (#15388) (ea7df7f42)
+        - chore: bump up oxlint version to v1.76.0 (#15387) (d124d6eac)
+        - chore: bump up Rust to v1.97.1 (#15389) (df86d5259)
+        - feat(editor): add permanent global toggle for code block line numbers (#15381) (6170a9078)
+        - feat(server): improve ci build (#15386) (758b2260f)
+        - chore: bump up Node.js to v22.23.2 (#15384) (5c38f1376)
+        - chore: bump up js-yaml version to v5 [SECURITY] (#15385) (fb647b600)
+        - chore: bump up apollographql/apollo-ios version to v1.25.7 (#13687) (4f3ace6e7)
+        - chore: bump up nestjs (#15276) (d3975a64f)
+        - chore: bump up opentelemetry (#15323) (b91db2ace)
+        - fix(editor): test stability (#15377) (dd1c8dc7d)
+        - feat(server): update model list (#15375) (a1defa8a3)
+        - feat(server): improve blob sync (#15367) (00576e1e7)
+        - fix(mobile): mobile keyboard padding (#15365) (b6fc0a219)
+        - feat(editor): improve select perf (#15353) (e7ec8a103)
+        - feat(server): improve doc gc (#15363) (cfc7bbb90)
+        - fix(mobile): popover handle (b05f16582)
+        - fix(mobile): popover styles (#15351) (749f1c5f0)
+        - chore: update config template (#15344) (b975e6b56)
+        - feat: improve mac dock behavior (#15334) (0d889bc64)
+        - fix(core): onenote import (#15332) (8001451fd)
+        - feat(server): improve doc gc (#15329) (174ad9bc5)
+        - chore: bump up dompurify version to v3.4.12 [SECURITY] (#15326) (7c6a36728)
+
+        https://github.com/toeverything/AFFiNE/compare/776ca2c702af54a9c23d60cf0f426a76ea9c38e8...b4c8548c09da21b2898443559a5b846f0ccf5dd8
+packaged_at: 2026-11-19T20:49:44.241303087Z
