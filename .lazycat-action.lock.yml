@@ -90,4 +90,4 @@ application:
         - chore: bump up dompurify version to v3.4.12 [SECURITY] (#15326) (7c6a36728)
 
         https://github.com/toeverything/AFFiNE/compare/776ca2c702af54a9c23d60cf0f426a76ea9c38e8...b4c8548c09da21b2898443559a5b846f0ccf5dd8
-packaged_at: 2026-11-19T20:49:44.241303087Z
+packaged_at: 2026-11-20T07:30:51.256422688Z
