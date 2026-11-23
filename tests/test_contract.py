@@ -21,6 +21,28 @@ class ContractTests(unittest.TestCase):
         for script in ('bootstrap.cjs', 'refresh-managed.cjs'):
             self.assertIn(f'node /lzcapp/pkg/content/{script}', service['command'])
 
+    def test_manifest_includes_lazycat_file_picker_interception(self):
+        import yaml
+
+        manifest = yaml.safe_load((ROOT / 'lzc-manifest.yml').read_text())
+        injects = {item['id']: item for item in manifest['application']['injects']}
+        bridge = injects['lazycat-file-bridge']
+        chooser_inject = injects['open-save-chooser']
+        bridge_on = bridge.get('on', bridge.get(True))
+        chooser_on = chooser_inject.get('on', chooser_inject.get(True))
+        self.assertEqual(bridge_on, 'request')
+        self.assertIn('/__lazycat_file_bridge/*', injects['lazycat-file-bridge']['when'])
+        self.assertEqual(chooser_on, 'browser')
+        chooser = chooser_inject['do'][0]
+        self.assertEqual(
+            chooser['src'],
+            'file:///lzcapp/pkg/content/lazycat-injects/lzc-file-chooser-inject.js',
+        )
+        self.assertEqual(chooser['params']['fileBridgeRoot'], '/__lazycat_file_bridge')
+        self.assertTrue(
+            (ROOT / 'content/lazycat-injects/lzc-file-chooser-inject.js').stat().st_size > 100_000
+        )
+
     def test_installed_manifest_cannot_diverge_from_tested_runtime(self):
         import shutil,yaml
         for mutation in ('missing-storage','wrong-command','wrong-database','old-os'):
