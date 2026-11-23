@@ -102,7 +102,8 @@ reviews:
       fingerprint: sha256:4b762f068f21b57c759186918c1b7d468aac86b267349d1235db59d69bc91ed7
       application_version: 0.27.6
       lpk_sha256: d58d1c35fbf156946d7663ab8765e48e3ef65889390793d205b2ca9c91915590
-      status: waiting
+      status: rejected
+      reason: 没有文件选择器拦截
       created_at: 2026-11-21T07:26:34.734Z
       submitted_at: 2026-11-21T07:26:34.817381818Z
-      checked_at: 2026-11-21T07:26:34.81738256Z
+      checked_at: 2026-11-23T07:52:10.939554087Z
