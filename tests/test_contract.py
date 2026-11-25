@@ -28,8 +28,10 @@ class ContractTests(unittest.TestCase):
         injects = {item['id']: item for item in manifest['application']['injects']}
         bridge = injects['lazycat-file-bridge']
         chooser_inject = injects['open-save-chooser']
-        bridge_on = bridge.get('on', bridge.get(True))
-        chooser_on = chooser_inject.get('on', chooser_inject.get(True))
+        self.assertIn('on', bridge)
+        self.assertIn('on', chooser_inject)
+        bridge_on = bridge['on']
+        chooser_on = chooser_inject['on']
         self.assertEqual(bridge_on, 'request')
         self.assertIn('/__lazycat_file_bridge/*', injects['lazycat-file-bridge']['when'])
         self.assertEqual(chooser_on, 'browser')

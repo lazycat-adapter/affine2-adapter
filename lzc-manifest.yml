@@ -12,7 +12,7 @@ application:
     - /oauth/callback
   injects:
     - id: lazycat-file-bridge
-      on: request
+      "on": request
       when:
         - /__lazycat_file_bridge/*
       do:
@@ -51,7 +51,7 @@ application:
               on_fail: "error",
             });
     - id: open-save-chooser
-      on: browser
+      "on": browser
       when:
         - /*
       do:
